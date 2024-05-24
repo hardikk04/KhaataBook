@@ -3,6 +3,9 @@
   <div class="login w-1/4 p-4 bg-zinc-100 rounded-md">
     <form action="/login" method="post" class="flex flex-col gap-4 items-start">
       <h1 class="text-2xl mb-2">Login now.</h1>
+      <% if(error.length > 0){ %>
+      <p class="text-red-500"><%= error[0] %></p>
+      <%} %>
       <input
         class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
         type="text"

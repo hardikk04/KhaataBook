@@ -14,6 +14,7 @@ const db = require("./config/database-connection");
 
 // Routes
 const indexRoute = require("./routes/index-route");
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use(
     saveUninitialized: false,
   })
 );
+app.use(cookieParser());
 app.use(flash());
 
 app.use("/", indexRoute);
