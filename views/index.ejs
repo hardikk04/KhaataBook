@@ -1,0 +1,28 @@
+<%- include("./partials/header.ejs") %>
+<div class="w-full h-[80%] p-10 flex justify-center items-center">
+  <div class="login w-1/4 p-4 bg-zinc-100 rounded-md">
+    <form action="/login" method="post" class="flex flex-col gap-4 items-start">
+      <h1 class="text-2xl mb-2">Login now.</h1>
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="text"
+        placeholder="Email or Username"
+        name="emailorusername"
+      />
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="password"
+        placeholder="password"
+        name="password"
+      />
+      <input
+        type="submit"
+        class="text-white bg-blue-500 rounded-md px-4 py-1"
+      />
+      <a class="text-blue-500 mt-4 inline-block" href="/register"
+        >Don't have an account</a
+      >
+    </form>
+  </div>
+</div>
+<%- include("./partials/footer.ejs") %>

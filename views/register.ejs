@@ -1,0 +1,47 @@
+<%- include("./partials/header.ejs") %>
+<div class="w-full h-[80%] p-10 flex justify-center items-center">
+  <div class="register w-1/4 p-4 bg-zinc-100 rounded-md">
+    <form
+      action="/register"
+      method="post"
+      class="flex flex-col gap-3 items-start"
+    >
+      <h1 class="text-2xl mb-2">Create account now.</h1>
+      <% if(error.length > 0){ %>
+      <p class="text-red-500"><%= error[0] %></p>
+      <%} %>
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="text"
+        placeholder="Name"
+        name="name"
+      />
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="text"
+        placeholder="Email"
+        name="email"
+      />
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="text"
+        placeholder="Username"
+        name="username"
+      />
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="password"
+        placeholder="password"
+        name="password"
+      />
+      <input
+        type="submit"
+        class="text-white bg-blue-500 rounded-md px-4 py-1"
+      />
+      <a class="text-blue-500 mt-4 inline-block" href="/"
+        >Have an account, login here.</a
+      >
+    </form>
+  </div>
+</div>
+<%- include("./partials/footer.ejs") %>
