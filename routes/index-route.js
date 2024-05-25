@@ -8,7 +8,6 @@ const isLoggedIn = require("../middleware/isLoggedIn");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  console.log(req.cookies);
   res.render("index", { error: req.flash("error") });
 });
 
@@ -56,50 +55,23 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { emailorusername, password } = req.body;
-
     const userByEmail = await userModel.findOne({ email: emailorusername });
-    if (userByEmail) {
-      bcrypt.compare(password, userByEmail.password, (err, result) => {
-        if (result) {
-          const token = jwt.sign(
-            {
-              username: userByEmail.username,
-              userId: userByEmail._id,
-            },
-            process.env.JWT_SECRET
-          );
-          res.cookie("token", token);
-          res.redirect("/profile");
-        } else {
-          req.flash("error", "Invalid credentials");
-          res.redirect("/");
-        }
-      });
-    } else {
-      const userByUsername = await userModel.findOne({
-        username: emailorusername,
-      });
-      if (userByUsername) {
-        bcrypt.compare(password, userByUsername.password, (err, result) => {
-          if (result) {
-            const token = jwt.sign(
-              {
-                username: userByUsername.username,
-                userId: userByUsername._id,
-              },
-              process.env.JWT_SECRET
-            );
-            res.cookie("token", token);
-            res.redirect("/profile");
-          } else {
-            req.flash("error", "Invalid credentials");
-            res.redirect("/");
-          }
-        });
+    bcrypt.compare(password, userByEmail.password, (err, result) => {
+      if (result) {
+        const token = jwt.sign(
+          {
+            username: userByEmail.username,
+            userId: userByEmail._id,
+          },
+          process.env.JWT_SECRET
+        );
+        res.cookie("token", token);
+        res.redirect("/profile");
+      } else {
+        req.flash("error", "Invalid credentials");
+        res.redirect("/");
       }
-      req.flash("error", "Invalid credentials");
-      res.redirect("/");
-    }
+    });
   } catch (error) {
     res.redirect("/error");
   }
