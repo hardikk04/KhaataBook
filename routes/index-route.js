@@ -56,22 +56,28 @@ router.post("/login", async (req, res) => {
   try {
     const { emailorusername, password } = req.body;
     const userByEmail = await userModel.findOne({ email: emailorusername });
-    bcrypt.compare(password, userByEmail.password, (err, result) => {
-      if (result) {
-        const token = jwt.sign(
-          {
-            username: userByEmail.username,
-            userId: userByEmail._id,
-          },
-          process.env.JWT_SECRET
-        );
-        res.cookie("token", token);
-        res.redirect("/profile");
-      } else {
-        req.flash("error", "Invalid credentials");
-        res.redirect("/");
-      }
-    });
+
+    if (userByEmail) {
+      bcrypt.compare(password, userByEmail.password, (err, result) => {
+        if (result) {
+          const token = jwt.sign(
+            {
+              username: userByEmail.username,
+              userId: userByEmail._id,
+            },
+            process.env.JWT_SECRET
+          );
+          res.cookie("token", token);
+          res.redirect("/profile");
+        } else {
+          req.flash("error", "Invalid credentials");
+          res.redirect("/");
+        }
+      });
+    } else {
+      req.flash("error", "Invalid credentials");
+      res.redirect("/");
+    }
   } catch (error) {
     res.redirect("/error");
   }
@@ -82,7 +88,7 @@ router.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-router.get("/profile", isLoggedIn, (req, res) => {
+router.get("/profile", isLoggedIn, async (req, res) => {
   res.render("profile");
 });
 

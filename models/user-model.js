@@ -26,9 +26,12 @@ const userModle = mongoose.Schema({
     type: String,
     required: true,
   },
-  hisaab: {
-    type: Array,
-  },
+  hisaab: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "hisaab",
+    },
+  ],
 });
 
 module.exports = mongoose.model("user", userModle);

@@ -4,6 +4,7 @@ const path = require("path");
 const dbgr = require("debug")("development:app");
 const flash = require("connect-flash");
 const expressSession = require("express-session");
+const cookieParser = require("cookie-parser");
 
 // dotenv configuration
 const dotenv = require("dotenv");
@@ -14,7 +15,7 @@ const db = require("./config/database-connection");
 
 // Routes
 const indexRoute = require("./routes/index-route");
-const cookieParser = require("cookie-parser");
+const hisaabRoute = require("./routes/hisaab-route");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.use(cookieParser());
 app.use(flash());
 
 app.use("/", indexRoute);
+app.use("/hisaab", hisaabRoute);
 
 app.listen(process.env.PORT, () => {
   dbgr("server listening on port " + process.env.PORT);
