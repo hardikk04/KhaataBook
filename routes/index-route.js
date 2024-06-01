@@ -89,7 +89,10 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/profile", isLoggedIn, async (req, res) => {
-  res.render("profile");
+  const user = await userModel
+    .findOne({ _id: req.user.userId })
+    .populate("hisaab");
+  res.render("profile", { user });
 });
 
 module.exports = router;

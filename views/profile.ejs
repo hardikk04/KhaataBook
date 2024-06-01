@@ -1,5 +1,16 @@
 <%- include("./partials/header.ejs")%>
-<div class="main">
-  <h1>Hello from profile</h1>
+<div class="main px-10 py-5">
+  <h1 class="text-3xl">Hello <%= user.name %>👋</h1>
+  <div class="hisaabs mt-6">
+    <% user.hisaab.forEach(hisaab =>{%>
+    <div class="hisaab px-4 py-2 rounded-md bg-zinc-300 w-1/5">
+      <p class="opacity-60 text-[1vvw]">
+        <%= hisaab.createdAt.getDate() %>-<%= hisaab.createdAt.getMonth() %>-<%=
+        hisaab.createdAt.getFullYear() %>
+      </p>
+      <h1 class="text-xl mt-2"><%= hisaab.title %></h1>
+    </div>
+    <%})%>
+  </div>
 </div>
 <%- include("./partials/footer.ejs")%>
