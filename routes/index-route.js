@@ -4,15 +4,16 @@ const bcrypt = require("bcrypt");
 const userModel = require("../models/user-model");
 const dbgr = require("debug")("development:index-route");
 const isLoggedIn = require("../middleware/isLoggedIn");
+const redirectIfLogin = require("../middleware/redirectIfLogin");
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
-  res.render("index", { error: req.flash("error") });
+router.get("/", redirectIfLogin, (req, res) => {
+  res.render("index", { error: req.flash("error"), nav: false });
 });
 
 router.get("/register", (req, res) => {
-  res.render("register", { error: req.flash("error") });
+  res.render("register", { error: req.flash("error"), nav: false });
 });
 
 router.get("/error", (req, res) => {

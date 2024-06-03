@@ -10,9 +10,13 @@
   <body>
     <div class="nav w-full flex justify-between items-center pt-5 p-10">
       <h1 class="text-2xl text-blue-500 font-[600]">KhaataBook</h1>
+      <% var nav = typeof nav === 'undefined'? true:nav %> 
+      <%if(nav){ %>
       <div class="flex gap-6 items-center">
-        <h1>Home</h1>
-        <h1>Create new hisaab</h1>
+        <a href="/profile">Home</a>
+        <a href="#">Create new Hisaab</a>
+        <a href="/logout" class="text-red-500">Logout</a>
       </div>
+      <%}%>
     </div>
 
