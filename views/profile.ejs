@@ -1,14 +1,19 @@
 <%- include("./partials/header.ejs")%>
 <div class="main px-10 py-5">
   <h1 class="text-3xl">Hello <%= user.name %>👋</h1>
-  <div class="hisaabs mt-6">
+  <div class="hisaabs mt-6 flex gap-4 flex-wrap">
     <% user.hisaab.forEach(hisaab =>{%>
     <div class="hisaab px-4 py-2 rounded-md bg-zinc-300 w-1/5">
-      <p class="opacity-60 text-[1vvw]">
-        <%= hisaab.createdAt.getDate() %>-<%= hisaab.createdAt.getMonth() %>-<%=
-        hisaab.createdAt.getFullYear() %>
+      <p class="opacity-60 text-xs">
+        Created on <%= hisaab.createdAt.getDate() %>-<%=
+        hisaab.createdAt.getMonth() %>-<%= hisaab.createdAt.getFullYear() %>
       </p>
       <h1 class="text-xl mt-2"><%= hisaab.title %></h1>
+      <a
+        href="/hisaab/view/<%= hisaab._id %>"
+        class="text-xs opacity-60 font-[500] mt-2 inline-block"
+        >view hisaab</a
+      >
     </div>
     <%})%>
   </div>

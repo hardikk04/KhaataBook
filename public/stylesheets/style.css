@@ -11,3 +11,11 @@ html {
   height: 100%;
   background-color: #e4e4e4;
 }
+
+.hisaab {
+  transition: all ease 0.5s;
+}
+
+.hisaab:hover {
+  background-color: #9f9f9f;
+}

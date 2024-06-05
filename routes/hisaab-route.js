@@ -34,4 +34,31 @@ app.post("/create", isLoggedIn, async (req, res) => {
   }
 });
 
+app.get("/view/:id", isLoggedIn, async (req, res) => {
+  try {
+    const hisaab = await hisaabModel.findOne({ _id: req.params.id });
+    res.render("view", { hisaab });
+  } catch (error) {
+    res.redirect("/error");
+  }
+});
+
+app.get("/delete/:id", isLoggedIn, async (req, res) => {
+  try {
+    const user = await userModel
+      .findOne({ _id: req.user.userId })
+      .populate("hisaab");
+    await hisaabModel.findOneAndDelete({ _id: req.params.id });
+    user.hisaab = user.hisaab.filter((h) => {
+      return h._id.toString() !== req.params.id;
+    });
+
+    await user.save();
+
+    res.redirect("/profile");
+  } catch (error) {
+    res.redirect("/error");
+  }
+});
+
 module.exports = app;
