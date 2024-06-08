@@ -16,11 +16,23 @@ app.get("/create", (req, res) => {
 
 app.post("/create", isLoggedIn, async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const {
+      title,
+      description,
+      shareable,
+      encrypted,
+      passcode,
+      editPermission,
+    } = req.body;
+
     const hisaab = await hisaabModel.create({
       title,
       description,
       user: req.user.userId,
+      shareable,
+      encrypted,
+      passcode,
+      editPermission,
     });
 
     const user = await userModel.findOne({ _id: req.user.userId });

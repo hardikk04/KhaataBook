@@ -1,6 +1,23 @@
 <%- include("./partials/header.ejs") %>
 <div class="main px-10 py-5">
   <div class="shares flex gap-5">
+    <% if(hisaab.encrypted) { %>
+      <span
+        class="text-white flex items-center justify-center gap-2 bg-blue-500 rounded-md px-4 py-1 text-sm"
+        ><i class="ri-lock-2-line"></i> Encrypted</span
+      >
+      <%} else{ %>
+      <span
+        class="text-white flex items-center justify-center gap-2 bg-green-800 rounded-md px-4 py-1 text-sm"
+        ><i class="ri-check-fill"></i> Available</span
+      >
+      <%}%> <% if(!hisaab.shareable) {%>
+      <span
+        class="px-4 py-1 flex items-center justify-center gap-2 rounded-md bg-zinc-400"
+        ><i class="ri-eye-off-line"></i
+      ></span>
+
+      <%}%>
     <a href="/hisaab/delete/<%= hisaab._id %>" class="text-white bg-red-600 rounded-md px-4 py-1"
       >Delete</a
     >

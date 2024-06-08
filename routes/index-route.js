@@ -90,9 +90,18 @@ router.get("/logout", (req, res) => {
 });
 
 router.get("/profile", isLoggedIn, async (req, res) => {
-  const user = await userModel
-    .findOne({ _id: req.user.userId })
-    .populate("hisaab");
+  let byDate = Number(req.query.byDate);
+  let { startDate, endDate } = req.query;
+  startDate = startDate ? startDate : new Date("1970/01/01");
+  endDate = endDate ? endDate : new Date();
+
+  const user = await userModel.findOne({ _id: req.user.userId }).populate({
+    path: "hisaab",
+    options: {
+      sort: { createdAt: byDate },
+      match: { $gte: startDate, $lte: endDate },
+    },
+  });
   res.render("profile", { user });
 });
 

@@ -1,13 +1,67 @@
 <%- include("./partials/header.ejs")%>
 <div class="main px-10 py-5">
   <h1 class="text-3xl">Hello <%= user.name %>👋</h1>
+  <form action="/profile" method="get" class="flex mt-6 mb-10 gap-5">
+    <div
+      class="px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md"
+    >
+      Filters <i class="ri-sound-module-fill"></i>
+    </div>
+    <div
+      class="bydate cursor-pointer px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md"
+    >
+      By Date <i class="ri-calendar-line"></i>
+    </div>
+    <div class="dates flex gap-5 items-center hidden">
+      <input
+        type="date"
+        class="bg-zinc-200 text-sm px-4 py-2 rounded-md"
+        name="startDate"
+      />
+      <input
+        type="date"
+        class="bg-zinc-200 text-sm px-4 py-2 rounded-md"
+        name="endDate"
+      />
+    </div>
+    <select class="outline-none cursor-pointer" name="byDate">
+      <option value="1">Newest First</option>
+      <option value="-1">Oldest First</option>
+    </select>
+    <input
+      type="submit"
+      class="px-6 py-2 cursor-pointer bg-blue-500 text-white rounded-md"
+      value="Filter"
+    />
+  </form>
   <div class="hisaabs mt-6 flex gap-4 flex-wrap">
     <% user.hisaab.forEach(hisaab =>{%>
-    <div class="hisaab px-4 py-2 rounded-md bg-zinc-300 w-1/5">
-      <p class="opacity-60 text-xs">
-        Created on <%= hisaab.createdAt.getDate() %>-<%=
-        hisaab.createdAt.getMonth() %>-<%= hisaab.createdAt.getFullYear() %>
-      </p>
+    <div class="hisaab px-4 py-4 rounded-md bg-zinc-300 w-1/4">
+      <div class="flex justify-between items-center">
+        <div class="flex gap-3">
+          <% if(hisaab.encrypted) { %>
+          <span
+            class="text-white flex items-center justify-center gap-2 bg-blue-500 rounded-md px-4 py-1 text-sm"
+            ><i class="ri-lock-2-line"></i> Encrypted</span
+          >
+          <%} else{ %>
+          <span
+            class="text-white flex items-center justify-center gap-2 bg-green-800 rounded-md px-4 py-1 text-sm"
+            ><i class="ri-check-fill"></i> Available</span
+          >
+          <%}%> <% if(!hisaab.shareable) {%>
+          <span
+            class="px-4 py-1 flex items-center justify-center gap-2 rounded-md bg-zinc-400"
+            ><i class="ri-eye-off-line"></i
+          ></span>
+
+          <%}%>
+        </div>
+        <p class="opacity-60 text-xs">
+          Created on <%= hisaab.createdAt.getDate() %>-<%=
+          hisaab.createdAt.getMonth() %>-<%= hisaab.createdAt.getFullYear() %>
+        </p>
+      </div>
       <h1 class="text-xl mt-2"><%= hisaab.title %></h1>
       <a
         href="/hisaab/view/<%= hisaab._id %>"
@@ -18,4 +72,15 @@
     <%})%>
   </div>
 </div>
+<script>
+  const byDate = document.querySelector(".bydate");
+  const dates = document.querySelector(".dates");
+  byDate.addEventListener("click", () => {
+    if (dates.classList.contains("hidden")) {
+      dates.classList.remove("hidden");
+    } else {
+      dates.classList.add("hidden");
+    }
+  });
+</script>
 <%- include("./partials/footer.ejs")%>

@@ -9,7 +9,7 @@ body,
 html {
   width: 100%;
   height: 100%;
-  background-color: #e4e4e4;
+  background-color: #ffffff;
 }
 
 .hisaab {
@@ -17,5 +17,16 @@ html {
 }
 
 .hisaab:hover {
-  background-color: #9f9f9f;
+  background-color: #b5b5b5;
+}
+
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.no-spinner {
+  -moz-appearance: textfield;
 }
