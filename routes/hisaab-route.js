@@ -73,4 +73,33 @@ app.get("/delete/:id", isLoggedIn, async (req, res) => {
   }
 });
 
+app.get("/edit/:id", isLoggedIn, async (req, res) => {
+  try {
+    const condition = req.flash("error").length > 0 ? true : false;
+    const hisaab = await hisaabModel.findOne({ _id: req.params.id });
+
+    res.render("edit", { error: condition, hisaab });
+  } catch (error) {
+    res.redirect("/error");
+  }
+});
+
+app.post("/edit/:id", isLoggedIn, async (req, res) => {
+  try {
+    let { title, description, encrypted, shareable, passcode, editPermission } =
+      req.body;
+    encrypted = encrypted ? encrypted : false;
+    shareable = shareable ? shareable : false;
+    editPermission = editPermission ? editPermission : false;
+
+    const hisaab = await hisaabModel.findOneAndUpdate(
+      { _id: req.params.id },
+      { title, description, encrypted, shareable, passcode, editPermission }
+    );
+    res.redirect("/profile");
+  } catch (error) {
+    res.redirect("/error");
+  }
+});
+
 module.exports = app;
