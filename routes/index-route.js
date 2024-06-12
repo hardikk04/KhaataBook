@@ -92,6 +92,7 @@ router.get("/logout", (req, res) => {
 router.get("/profile", isLoggedIn, async (req, res) => {
   let byDate = Number(req.query.byDate);
   let { startDate, endDate } = req.query;
+  byDate = byDate ? byDate : 1;
   startDate = startDate ? startDate : new Date("1970/01/01");
   endDate = endDate ? endDate : new Date();
 
