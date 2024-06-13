@@ -88,9 +88,11 @@ app.post("/edit/:id", isLoggedIn, async (req, res) => {
   try {
     let { title, description, encrypted, shareable, passcode, editPermission } =
       req.body;
+    console.log(editPermission);
     encrypted = encrypted ? encrypted : false;
     shareable = shareable ? shareable : false;
     editPermission = editPermission ? editPermission : false;
+    console.log(editPermission);
 
     const hisaab = await hisaabModel.findOneAndUpdate(
       { _id: req.params.id },
