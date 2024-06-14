@@ -5,9 +5,6 @@ const hisaabModel = require("../models/hisaab-model");
 
 const app = express.Router();
 
-app.get("/", (req, res) => {
-  res.send("hello from hisaab");
-});
 
 app.get("/create", (req, res) => {
   const condition = req.flash("error").length > 0 ? true : false;
