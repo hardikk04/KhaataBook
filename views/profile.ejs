@@ -63,11 +63,19 @@
         </p>
       </div>
       <h1 class="text-xl mt-2"><%= hisaab.title %></h1>
-      <a
-        href="/hisaab/view/<%= hisaab._id %>"
-        class="text-xs opacity-60 font-[500] mt-2 inline-block"
-        >view hisaab</a
-      >
+      <% if(hisaab.encrypted){ %>
+        <a
+          href="/hisaab/view/passcode/<%= hisaab._id %>"
+          class="text-xs opacity-60 font-[500] mt-2 inline-block"
+          >view hisaab</a
+        >
+      <%}else{ %>
+        <a
+          href="/hisaab/view/<%= hisaab._id %>"
+          class="text-xs opacity-60 font-[500] mt-2 inline-block"
+          >view hisaab</a
+        >
+      <%} %>
     </div>
     <%})%>
   </div>

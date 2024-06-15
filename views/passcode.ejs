@@ -1,0 +1,27 @@
+<%- include("./partials/header.ejs") %>
+<div class="w-full h-[80%] p-10 flex justify-center items-center">
+  <div class="login w-1/4 p-4 bg-zinc-100 rounded-md">
+    <form
+      action="/hisaab/view/passcode/<%= hisaab._id %>"
+      method="post"
+      class="flex flex-col gap-4 items-start"
+    >
+      <h1 class="text-2xl mb-2">Passcode please🤚</h1>
+      <% if(error.length > 0){ %>
+      <p class="text-red-500"><%= error[0] %></p>
+      <%} %>
+      <input
+        class="block border-[1px] border-zinc-400 w-full rounded-md p-2"
+        type="password"
+        placeholder="Passcode"
+        name="passcode"
+      />
+      <input
+        type="submit"
+        class="text-white bg-blue-500 rounded-md px-4 py-1"
+        value="View Hisaab"
+      />
+    </form>
+  </div>
+</div>
+<%- include("./partials/footer.ejs") %>
