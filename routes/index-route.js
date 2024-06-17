@@ -5,6 +5,7 @@ const userModel = require("../models/user-model");
 const dbgr = require("debug")("development:index-route");
 const isLoggedIn = require("../middleware/isLoggedIn");
 const redirectIfLogin = require("../middleware/redirectIfLogin");
+const getToken = require("../utils/createToken");
 
 const router = express.Router();
 
@@ -36,10 +37,7 @@ router.post("/register", async (req, res) => {
             password: hash,
             name,
           });
-          const token = jwt.sign(
-            { email, userId: newUser._id },
-            process.env.JWT_SECRET
-          );
+          const token = getToken(newUser);
           res.cookie("token", token);
           res.redirect("/profile");
         } catch (err) {
@@ -61,13 +59,7 @@ router.post("/login", async (req, res) => {
     if (userByEmail) {
       bcrypt.compare(password, userByEmail.password, (err, result) => {
         if (result) {
-          const token = jwt.sign(
-            {
-              username: userByEmail.username,
-              userId: userByEmail._id,
-            },
-            process.env.JWT_SECRET
-          );
+          const token = getToken(userByEmail);
           res.cookie("token", token);
           res.redirect("/profile");
         } else {
