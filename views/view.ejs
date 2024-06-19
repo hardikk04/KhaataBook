@@ -2,28 +2,34 @@
 <div class="main px-10 py-5">
   <div class="shares flex gap-5">
     <% if(hisaab.encrypted) { %>
-      <span
-        class="text-white flex items-center justify-center gap-2 bg-blue-500 rounded-md px-4 py-1 text-sm"
-        ><i class="ri-lock-2-line"></i> Encrypted</span
-      >
-      <%} else{ %>
-      <span
-        class="text-white flex items-center justify-center gap-2 bg-green-800 rounded-md px-4 py-1 text-sm"
-        ><i class="ri-check-fill"></i> Available</span
-      >
-      <%}%> <% if(!hisaab.shareable) {%>
-      <span
-        class="px-4 py-1 flex items-center justify-center gap-2 rounded-md bg-zinc-400"
-        ><i class="ri-eye-off-line"></i
-      ></span>
+    <span
+      class="text-white flex items-center justify-center gap-2 bg-blue-500 rounded-md px-4 py-1 text-sm"
+      ><i class="ri-lock-2-line"></i> Encrypted</span
+    >
+    <%} else{ %>
+    <span
+      class="text-white flex items-center justify-center gap-2 bg-green-800 rounded-md px-4 py-1 text-sm"
+      ><i class="ri-check-fill"></i> Available</span
+    >
+    <%}%> <% if(!hisaab.shareable) {%>
+    <span
+      class="px-4 py-1 flex items-center justify-center gap-2 rounded-md bg-zinc-400"
+      ><i class="ri-eye-off-line"></i
+    ></span>
 
-      <%}%>
-    <a href="/hisaab/delete/<%= hisaab._id %>" class="text-white bg-red-600 rounded-md px-4 py-1"
+    <%}%>
+    <a
+      href="/hisaab/delete/<%= hisaab._id %>"
+      class="text-white bg-red-600 rounded-md px-4 py-1"
       >Delete</a
     >
-    <a href="/hisaab/edit/<%= hisaab._id %>" class="text-black bg-yellow-600 rounded-md px-4 py-1"
+    <%if(hisaab.editPermission || user.hisaab.includes(hisaab._id) ){%>
+    <a
+      href="/hisaab/edit/<%= hisaab._id %>"
+      class="text-black bg-yellow-600 rounded-md px-4 py-1"
       >Edit</a
     >
+    <%}%>
   </div>
   <p class="opacity-60 font-[500] mt-4">
     Created on <%= hisaab.createdAt.getDate() %>-<%= hisaab.createdAt.getMonth()

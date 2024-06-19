@@ -3,8 +3,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const userModel = require("../models/user-model");
 const dbgr = require("debug")("development:index-route");
-const isLoggedIn = require("../middleware/isLoggedIn");
-const redirectIfLogin = require("../middleware/redirectIfLogin");
+const isLoggedIn = require("../middleware/isLoggedIn-middleware");
+const redirectIfLogin = require("../middleware/redirectIfLogin-middleware");
 const getToken = require("../utils/createToken");
 
 const router = express.Router();
