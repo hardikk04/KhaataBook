@@ -5,7 +5,7 @@ const hisaabModel = require("../models/hisaab-model");
 
 const router = express.Router();
 
-router.get("/create", (req, res) => {
+router.get("/create", isLoggedIn,(req, res) => {
   const condition = req.flash("error").length > 0 ? true : false;
   res.render("create", { error: condition });
 });
