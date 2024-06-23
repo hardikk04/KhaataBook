@@ -1,13 +1,12 @@
 const express = require("express");
 const isLoggedIn = require("../middleware/isLoggedIn-middleware");
-const userModel = require("../models/user-model");
-const hisaabModel = require("../models/hisaab-model");
+const { userModel, userValidation } = require("../models/user-model");
+const { hisaabModel, hisaabModelValidator } = require("../models/hisaab-model");
 
 const router = express.Router();
 
-router.get("/create", isLoggedIn,(req, res) => {
-  const condition = req.flash("error").length > 0 ? true : false;
-  res.render("create", { error: condition });
+router.get("/create", isLoggedIn, (req, res) => {
+  res.render("create", { error: req.flash("error") });
 });
 
 router.post("/create", isLoggedIn, async (req, res) => {
@@ -20,6 +19,22 @@ router.post("/create", isLoggedIn, async (req, res) => {
       passcode,
       editPermission,
     } = req.body;
+
+    const { error } = hisaabModelValidator({
+      title,
+      description,
+      shareable,
+      encrypted,
+      passcode,
+      editPermission,
+    });
+
+    if (error !== undefined) {
+      console.log(error.message);
+      req.flash("error", error.message);
+      res.redirect("/hisaab/create");
+      return;
+    }
 
     const hisaab = await hisaabModel.create({
       title,
@@ -58,7 +73,6 @@ router.get("/delete/:id", isLoggedIn, async (req, res) => {
       .findOne({ _id: req.user.userId })
       .populate("hisaab");
     const hisaab = await hisaabModel.findOne({ _id: req.params.id });
-    console.log(hisaab.user, user._id);
     if (user._id.toString() === hisaab.user.toString()) {
       await hisaabModel.findOneAndDelete({ _id: req.params.id });
       user.hisaab = user.hisaab.filter((h) => {
@@ -76,15 +90,13 @@ router.get("/delete/:id", isLoggedIn, async (req, res) => {
 
 router.get("/edit/:id", isLoggedIn, async (req, res) => {
   try {
-    const condition = req.flash("error").length > 0 ? true : false;
     const hisaab = await hisaabModel.findOne({ _id: req.params.id });
 
-    res.render("edit", { error: condition, hisaab });
+    res.render("edit", { error: req.flash("error"), hisaab });
   } catch (error) {
     res.redirect("/error");
   }
 });
-// 667330dd774305f94618b685
 
 router.post("/edit/:id", isLoggedIn, async (req, res) => {
   try {
@@ -93,6 +105,21 @@ router.post("/edit/:id", isLoggedIn, async (req, res) => {
     encrypted = encrypted ? encrypted : false;
     shareable = shareable ? shareable : false;
     editPermission = editPermission ? editPermission : false;
+
+    const { error } = hisaabModelValidator({
+      title,
+      description,
+      encrypted,
+      shareable,
+      passcode,
+      editPermission,
+    });
+
+    if (error !== undefined) {
+      req.flash("error", error.message);
+      res.redirect(req.get("Referer"));
+      return;
+    }
 
     const checkHisaab = await hisaabModel.findOne({ _id: req.params.id });
 

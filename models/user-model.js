@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const Joi = require("joi");
 
-const userModle = mongoose.Schema({
+const userModel = mongoose.Schema({
   username: {
     type: String,
     trim: true,
@@ -34,4 +35,20 @@ const userModle = mongoose.Schema({
   ],
 });
 
-module.exports = mongoose.model("user", userModle);
+const userValidation = (data) => {
+  const schema = Joi.object({
+    username: Joi.string().trim().min(3).max(20).required(),
+    name: Joi.string().trim().required(),
+    dp: Joi.string().trim().optional(),
+    email: Joi.string().trim().email().required(),
+    password: Joi.string().required(),
+    hisaab: Joi.array()
+      .items(Joi.string().regex(/^[0-9a-fA-F]{24}$/))
+      .optional(),
+  });
+
+  return schema.validate(data);
+};
+
+module.exports.userModel = mongoose.model("user", userModel);
+module.exports.userValidation = userValidation;

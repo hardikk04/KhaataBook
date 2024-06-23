@@ -1,7 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const userModel = require("../models/user-model");
+const { userModel, userValidation } = require("../models/user-model");
 const dbgr = require("debug")("development:index-route");
 const isLoggedIn = require("../middleware/isLoggedIn-middleware");
 const redirectIfLogin = require("../middleware/redirectIfLogin-middleware");
@@ -24,6 +24,15 @@ router.get("/error", (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { email, username, password, name } = req.body;
+
+    const { error } = userValidation({ email, username, password, name });
+
+    if (error !== undefined) {
+      req.flash("error", error.message);
+      res.redirect("/register");
+      return;
+    }
+
     const user = await userModel.findOne({ email });
     if (user) {
       req.flash("error", "User already registered.");
@@ -47,6 +56,7 @@ router.post("/register", async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error.message);
     res.redirect("/error");
   }
 });
