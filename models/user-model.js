@@ -17,6 +17,7 @@ const userModel = mongoose.Schema({
   dp: {
     type: String,
     trim: true,
+    default: "default.jpg",
   },
   email: {
     type: String,

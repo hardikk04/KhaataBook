@@ -6,11 +6,23 @@ const dbgr = require("debug")("development:index-route");
 const isLoggedIn = require("../middleware/isLoggedIn-middleware");
 const redirectIfLogin = require("../middleware/redirectIfLogin-middleware");
 const getToken = require("../utils/createToken");
+const upload = require("../config/multer-config");
 
 const router = express.Router();
 
 router.get("/", redirectIfLogin, (req, res) => {
   res.render("index", { error: req.flash("error"), nav: false });
+});
+
+router.post("/dp", isLoggedIn, upload.single("dp"), async (req, res) => {
+  try {
+    const user = await userModel.findOne({ _id: req.user.userId });
+    user.dp = req.file.filename;
+    await user.save();
+    res.redirect("/profile");
+  } catch (error) {
+    res.redirect("/error");
+  }
 });
 
 router.get("/register", (req, res) => {

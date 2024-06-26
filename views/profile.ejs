@@ -1,7 +1,30 @@
 <%- include("./partials/header.ejs")%>
 <div class="main px-10 py-5">
-  <h1 class="text-3xl">Hello <%= user.name %>👋</h1>
-  <form action="/profile" method="get" class="flex mt-6 mb-10 gap-5">
+  <div class="flex items-center gap-4">
+    <div class="flex flex-col items-center">
+      <div class="dp h-[3vw] w-[3vw] bg-red-500 rounded-full overflow-hidden">
+        <img
+          class="object-cover w-full h-full"
+          src="/images/<%= user.dp %>"
+          alt=""
+        />
+      </div>
+      <form
+        class="relative"
+        action="/dp"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        <input class="hidden fileInput" type="file" name="dp" />
+        <input
+          class="bg-blue-500 text-white px-3 text-sm mt-2 py-1 rounded-md"
+          type="submit"
+        />
+      </form>
+    </div>
+    <h1 class="text-3xl mb-8">Hello <%= user.name %>👋</h1>
+  </div>
+  <form action="/profile" method="get" class="flex mt-12 mb-10 gap-5">
     <div
       class="px-4 py-2 flex items-center gap-4 font-medium text-sm text-zinc-500 bg-zinc-200 rounded-md"
     >
@@ -64,17 +87,17 @@
       </div>
       <h1 class="text-xl mt-2"><%= hisaab.title %></h1>
       <% if(hisaab.encrypted){ %>
-        <a
-          href="/hisaab/view/passcode/<%= hisaab._id %>"
-          class="text-xs opacity-60 font-[500] mt-2 inline-block"
-          >view hisaab</a
-        >
+      <a
+        href="/hisaab/view/passcode/<%= hisaab._id %>"
+        class="text-xs opacity-60 font-[500] mt-2 inline-block"
+        >view hisaab</a
+      >
       <%}else{ %>
-        <a
-          href="/hisaab/view/<%= hisaab._id %>"
-          class="text-xs opacity-60 font-[500] mt-2 inline-block"
-          >view hisaab</a
-        >
+      <a
+        href="/hisaab/view/<%= hisaab._id %>"
+        class="text-xs opacity-60 font-[500] mt-2 inline-block"
+        >view hisaab</a
+      >
       <%} %>
     </div>
     <%})%>
@@ -89,6 +112,12 @@
     } else {
       dates.classList.add("hidden");
     }
+  });
+
+  const dp = document.querySelector(".dp");
+  const fileInput = document.querySelector(".fileInput");
+  dp.addEventListener("click", () => {
+    fileInput.click();
   });
 </script>
 <%- include("./partials/footer.ejs")%>
